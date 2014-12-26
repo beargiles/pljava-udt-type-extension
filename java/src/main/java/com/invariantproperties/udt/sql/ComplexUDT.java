@@ -1,0 +1,622 @@
+/*
+ * This code was written by Bear Giles <bgiles@coyotesong.com>and he
+ * licenses this file to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Any contributions made by others are licensed to this project under
+ * one or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.
+ * 
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ * 
+ * Copyright (c) 2012 Bear Giles <bgiles@coyotesong.com>
+ */
+package com.invariantproperties.udt.sql;
+
+import java.math.BigDecimal;
+import java.sql.SQLData;
+import java.sql.SQLException;
+import java.sql.SQLInput;
+import java.sql.SQLOutput;
+import java.util.ResourceBundle;
+
+import com.invariantproperties.udt.Complex;
+
+/**
+ * Glue that allows Complex numbers to be stored as user-defined types in
+ * database.
+ * 
+ * Design note: this class uses composition, not inheritance, since it should
+ * only be used as a container to persist and retrieve a Complex value.
+ * 
+ * @author bgiles@coyotesong.com
+ */
+public class ComplexUDT implements SQLData {
+    private static final ResourceBundle bundle = ResourceBundle
+            .getBundle(ComplexUDT.class.getName());
+    private static final String TYPE_NAME = bundle.getString("typeName");
+    private Complex value;
+    private String typeName;
+
+    /**
+     * Parse input string.
+     */
+    public static ComplexUDT parse(String input, String typeName)
+            throws SQLException {
+        // TODO: verify recognized typename.
+        Complex value = null;
+        try {
+            value = Complex.parse(input);
+        } catch (IllegalArgumentException e) {
+            throw new SQLException(e);
+        }
+        return new ComplexUDT(value);
+    }
+
+    /**
+     * Constructor taking only real value.
+     * 
+     * @param value
+     * @throws SQLException
+     */
+    public ComplexUDT(double value) throws SQLException {
+        this(value, 0);
+    }
+
+    /**
+     * Constructor taking only real value.
+     * 
+     * @param real
+     * @throws SQLException
+     */
+    public ComplexUDT(long real) throws SQLException {
+        this(real, 0);
+    }
+
+    /**
+     * Constructor taking real and imaginary values.
+     * 
+     * @param real
+     * @param imaginary
+     * @throws SQLException
+     */
+    public ComplexUDT(double real, double imaginary) throws SQLException {
+        this(real, imaginary, TYPE_NAME);
+    }
+
+    /**
+     * Constructor taking real, imaginary and type name.
+     * 
+     * @param real
+     * @param imaginary
+     * @param typeName
+     * @throws SQLException
+     */
+    public ComplexUDT(double real, double imaginary, String typeName)
+            throws SQLException {
+        this.value = new Complex(real, imaginary);
+        this.typeName = typeName;
+    }
+
+    /**
+     * Copy constructor (convenience)
+     * 
+     * @param p
+     * @throws SQLException
+     */
+    protected ComplexUDT(Complex p) throws SQLException {
+        this.value = p;
+        this.typeName = TYPE_NAME;
+    }
+
+    /**
+     * Get SQL Type Name.
+     */
+    public String getSQLTypeName() {
+        return typeName;
+    }
+
+    /**
+     * Read object from SQLInput stream.
+     */
+    public void readSQL(SQLInput stream, String typeName) throws SQLException {
+        double re = stream.readDouble();
+        double im = stream.readDouble();
+        this.value = new Complex(re, im);
+        this.typeName = typeName;
+    }
+
+    /**
+     * Write object to SQLOutput stream.
+     */
+    public void writeSQL(SQLOutput stream) throws SQLException {
+        stream.writeDouble(value.Re());
+        stream.writeDouble(value.Im());
+    }
+
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return (value == null) ? 0 : value.hashCode();
+    }
+
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object o) {
+        if ((value == null) || (o == null)) {
+            return false;
+        }
+
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof ComplexUDT)) {
+            return false;
+        }
+
+        ComplexUDT c = (ComplexUDT) o;
+        if (c.value == null) {
+            return false;
+        }
+
+        return value.equals(c.value);
+    }
+
+    /**
+     * Return string representing value. N.B., the toString() contract
+     * says that this method should never return null but the SQL contract
+     * says that a null object should return a null value. The UDT can
+     * never be null, of course, but it might wrap an uninitialized value.
+     * Therefore this method breaks the standard java contract and follows
+     * the SQL contract.
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return (value == null) ? null : value.toString();
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param input
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT newInstance(String input) throws SQLException {
+        if (input == null) {
+            return null;
+        }
+        return parse(input, TYPE_NAME);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param value
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT newInstance(double value) throws SQLException {
+        return new ComplexUDT(value);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param value
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT newInstance(Double value) throws SQLException {
+        return new ComplexUDT(value);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function. This may
+     * result in the loss of significant digits.
+     * 
+     * @param value
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT newInstance(BigDecimal value) throws SQLException {
+        return new ComplexUDT(value.doubleValue());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param value
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT newInstance(int value) throws SQLException {
+        return new ComplexUDT(value);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param value
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT newInstance(long value) throws SQLException {
+        return new ComplexUDT(value);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT negate(ComplexUDT p) throws SQLException {
+        if ((p == null) || (p.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.negate());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(ComplexUDT p, ComplexUDT q)
+            throws SQLException {
+        if ((p == null) || (p.value == null) || (q == null)
+                || (q.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.add(q.value));
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(ComplexUDT p, int q) throws SQLException {
+        return add(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(ComplexUDT p, long q) throws SQLException {
+        return add(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(ComplexUDT p, float q) throws SQLException {
+        return add(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(ComplexUDT p, double q) throws SQLException {
+        if ((p == null) || (p.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.add(new Complex(q)));
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(ComplexUDT p, BigDecimal q)
+            throws SQLException {
+        return add(p, q.doubleValue());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(int q, ComplexUDT p) throws SQLException {
+        return add(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(long q, ComplexUDT p) throws SQLException {
+        return add(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(float q, ComplexUDT p) throws SQLException {
+        return add(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(double q, ComplexUDT p) throws SQLException {
+        return add(p, q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT add(BigDecimal q, ComplexUDT p)
+            throws SQLException {
+        return add(p, q.doubleValue());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT subtract(ComplexUDT p, ComplexUDT q)
+            throws SQLException {
+        if ((p == null) || (p.value == null) || (q == null)
+                || (q.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.subtract(q.value));
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(ComplexUDT p, ComplexUDT q)
+            throws SQLException {
+        if ((p == null) || (p.value == null) || (q == null)
+                || (q.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.multiply(q.value));
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(ComplexUDT p, int q) throws SQLException {
+        return multiply(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(ComplexUDT p, long q) throws SQLException {
+        return multiply(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(ComplexUDT p, float q)
+            throws SQLException {
+        return multiply(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(ComplexUDT p, double q)
+            throws SQLException {
+        if ((p == null) || (p.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.multiply(new Complex(q)));
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(ComplexUDT p, BigDecimal q)
+            throws SQLException {
+        return multiply(p, q.doubleValue());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(int q, ComplexUDT p) throws SQLException {
+        return multiply(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(long q, ComplexUDT p) throws SQLException {
+        return multiply(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(float q, ComplexUDT p)
+            throws SQLException {
+        return multiply(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(double q, ComplexUDT p)
+            throws SQLException {
+        return multiply(p, (double) q);
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @param q
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT multiply(BigDecimal q, ComplexUDT p)
+            throws SQLException {
+        return multiply(p, q.doubleValue());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT abs(ComplexUDT p) throws SQLException {
+        if ((p == null) || (p.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.abs());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @return
+     * @throws SQLException
+     */
+    public static ComplexUDT conjugate(ComplexUDT p) throws SQLException {
+        if ((p == null) || (p.value == null)) {
+            return null;
+        }
+        return new ComplexUDT(p.value.getConjugate());
+    }
+
+    /**
+     * Static methods that will be published as user-defined function.
+     * 
+     * @param p
+     * @return
+     * @throws SQLException
+     */
+    public static Double magnitude(ComplexUDT p) throws SQLException {
+        if ((p == null) || (p.value == null)) {
+            return null;
+        }
+        return p.value.getMagnitude();
+    }
+}

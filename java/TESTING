@@ -1,0 +1,25 @@
+A modest amount of preparation is required before running the maven
+test target.
+
+1. A database must be created with the pl/java extension present. The 
+   database connection information is present in 
+   src/test/resources/database.properties.
+
+2. The test user must be a 'superuser' in order to load and unload
+   pl/java jar files.
+
+3. The jar file must be built first with 'mvn jar:jar' and copied to
+   the project directory as 'userdefinedtypes.jar'.
+
+The XDatabaseTest will handle creating a schema, loading the appropriate
+jar file (see #3), running the unit tests, and then unloading the jar
+file and dropping the schema.
+
+If things go toes up it may be necessary to clear the database manually.
+
+  $ psql javatest
+  javatest=# select sqlj.remove_jar('invariantproperties', true);
+  javatest=# drop schema invariantproperties;
+  
+If you drop the schema before you remove the jar file you will probably
+need to recreate the database.
