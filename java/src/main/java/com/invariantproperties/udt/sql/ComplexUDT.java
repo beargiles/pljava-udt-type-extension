@@ -75,6 +75,14 @@ public class ComplexUDT implements SQLData {
     }
 
     /**
+     * No-arg constructor. An SQLData implementation needs one, because
+     * readSQL is an instance method; before the runtime can invoke it when
+     * initializing a new instance, it first has to be able to <em>make</em>
+     * the new instance.
+     */
+    public ComplexUDT() { }
+
+    /**
      * Constructor taking only real value.
      * 
      * @param value
