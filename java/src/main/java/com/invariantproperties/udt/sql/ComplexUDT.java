@@ -47,7 +47,7 @@ import com.invariantproperties.udt.Complex;
  * 
  * @author bgiles@coyotesong.com
  */
-@BaseUDT(
+@BaseUDT(provides="complexudt",
     schema="invariantproperties", name="complex",
     internalLength=16,
     alignment=BaseUDT.Alignment.INT4 // can this be right? components are 8 wide
@@ -225,7 +225,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_string_as_complex",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT newInstance(String input) throws SQLException {
         if (input == null) {
@@ -242,7 +242,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_double_as_complex",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT newInstance(double value) throws SQLException {
         return new ComplexUDT(value);
@@ -258,7 +258,7 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties",
         name="complex_bigdecimal_as_complex",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT newInstance(BigDecimal value) throws SQLException {
         return new ComplexUDT(value.doubleValue());
@@ -272,7 +272,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_int_as_complex",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT newInstance(int value) throws SQLException {
         return new ComplexUDT(value);
@@ -286,7 +286,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_long_as_complex",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT newInstance(long value) throws SQLException {
         return new ComplexUDT(value);
@@ -300,7 +300,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_negate",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT negate(@SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         if ((p == null) || (p.value == null)) {
@@ -318,7 +318,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(@SQLType("invariantproperties.complex") ComplexUDT p, @SQLType("invariantproperties.complex") ComplexUDT q)
             throws SQLException {
@@ -338,7 +338,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(@SQLType("invariantproperties.complex") ComplexUDT p, int q) throws SQLException {
         return add(p, (double) q);
@@ -353,7 +353,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(@SQLType("invariantproperties.complex") ComplexUDT p, long q) throws SQLException {
         return add(p, (double) q);
@@ -368,7 +368,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(@SQLType("invariantproperties.complex") ComplexUDT p, float q) throws SQLException {
         return add(p, (double) q);
@@ -383,7 +383,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(@SQLType("invariantproperties.complex") ComplexUDT p, double q) throws SQLException {
         if ((p == null) || (p.value == null)) {
@@ -401,7 +401,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(@SQLType("invariantproperties.complex") ComplexUDT p, BigDecimal q)
             throws SQLException {
@@ -417,7 +417,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(int q, @SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         return add(p, (double) q);
@@ -432,7 +432,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(long q, @SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         return add(p, (double) q);
@@ -447,7 +447,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(float q, @SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         return add(p, (double) q);
@@ -462,7 +462,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(double q, @SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         return add(p, q);
@@ -477,7 +477,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_add",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT add(BigDecimal q, @SQLType("invariantproperties.complex") ComplexUDT p)
             throws SQLException {
@@ -493,7 +493,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_subtract",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT subtract(@SQLType("invariantproperties.complex") ComplexUDT p, @SQLType("invariantproperties.complex") ComplexUDT q)
             throws SQLException {
@@ -513,7 +513,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(@SQLType("invariantproperties.complex") ComplexUDT p, @SQLType("invariantproperties.complex") ComplexUDT q)
             throws SQLException {
@@ -533,7 +533,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(@SQLType("invariantproperties.complex") ComplexUDT p, int q) throws SQLException {
         return multiply(p, (double) q);
@@ -548,7 +548,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(@SQLType("invariantproperties.complex") ComplexUDT p, long q) throws SQLException {
         return multiply(p, (double) q);
@@ -563,7 +563,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(@SQLType("invariantproperties.complex") ComplexUDT p, float q)
             throws SQLException {
@@ -579,7 +579,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(@SQLType("invariantproperties.complex") ComplexUDT p, double q)
             throws SQLException {
@@ -598,7 +598,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(@SQLType("invariantproperties.complex") ComplexUDT p, BigDecimal q)
             throws SQLException {
@@ -614,7 +614,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(int q, @SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         return multiply(p, (double) q);
@@ -629,7 +629,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(long q, @SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         return multiply(p, (double) q);
@@ -644,7 +644,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(float q, @SQLType("invariantproperties.complex") ComplexUDT p)
             throws SQLException {
@@ -660,7 +660,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(double q, @SQLType("invariantproperties.complex") ComplexUDT p)
             throws SQLException {
@@ -676,7 +676,7 @@ public class ComplexUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="complex_multiply",
-        type="invariantproperties.complex",
+        type="invariantproperties.complex", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT multiply(BigDecimal q, @SQLType("invariantproperties.complex") ComplexUDT p)
             throws SQLException {
@@ -690,7 +690,7 @@ public class ComplexUDT implements SQLData {
      * @return
      * @throws SQLException
      */
-    @Function(schema="invariantproperties",
+    @Function(schema="invariantproperties", requires="complexudt",
         type="invariantproperties.complex",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT abs(@SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
@@ -707,7 +707,7 @@ public class ComplexUDT implements SQLData {
      * @return
      * @throws SQLException
      */
-    @Function(schema="invariantproperties",
+    @Function(schema="invariantproperties", requires="complexudt",
         type="invariantproperties.complex",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static ComplexUDT conjugate(@SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
@@ -724,7 +724,7 @@ public class ComplexUDT implements SQLData {
      * @return
      * @throws SQLException
      */
-    @Function(schema="invariantproperties",
+    @Function(schema="invariantproperties", requires="complexudt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static Double magnitude(@SQLType("invariantproperties.complex") ComplexUDT p) throws SQLException {
         if ((p == null) || (p.value == null)) {
