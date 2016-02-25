@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 
 import org.postgresql.pljava.annotation.BaseUDT;
 import org.postgresql.pljava.annotation.Function;
+import org.postgresql.pljava.annotation.SQLAction;
 import org.postgresql.pljava.annotation.SQLType;
 import static
     org.postgresql.pljava.annotation.Function.OnNullInput.RETURNS_NULL;
@@ -51,6 +52,22 @@ import com.invariantproperties.udt.Rational;
     schema="invariantproperties", name="rational",
     internalLength=16,
     alignment=BaseUDT.Alignment.INT4 // can this be right? components are 8 wide
+)
+@SQLAction(requires={"rationalmin", "rationalmax"},
+    install={
+        "CREATE AGGREGATE min(invariantproperties.rational) (" +
+        "sfunc = invariantproperties.min," +
+        "stype = invariantproperties.rational" +
+        ")",
+        "CREATE AGGREGATE max(invariantproperties.rational) (" +
+        "sfunc = invariantproperties.max," +
+        "stype = invariantproperties.rational" +
+        ")"
+    },
+    remove={
+        "DROP AGGREGATE max(invariantproperties.rational)",
+        "DROP AGGREGATE min(invariantproperties.rational)"
+    }
 )
 public class RationalUDT implements SQLData {
     private static final ResourceBundle bundle = ResourceBundle
@@ -476,7 +493,7 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties",
         type="invariantproperties.rational",
-        requires="rationaludt",
+        requires="rationaludt", provides="rationalmin",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static RationalUDT min(@SQLType("invariantproperties.rational") RationalUDT p, @SQLType("invariantproperties.rational") RationalUDT q) {
         if ((p == null) || (p.value == null) || (q == null)
@@ -496,7 +513,7 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties",
         type="invariantproperties.rational",
-        requires="rationaludt",
+        requires="rationaludt", provides="rationalmax",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static RationalUDT max(@SQLType("invariantproperties.rational") RationalUDT p, @SQLType("invariantproperties.rational") RationalUDT q) {
         if ((p == null) || (p.value == null) || (q == null)
