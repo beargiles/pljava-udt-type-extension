@@ -125,18 +125,6 @@ SQLActions[] = {
         OPERATOR        4       >= ,
         OPERATOR        5       > ,
         FUNCTION        1       invariantproperties.rational_cmp(invariantproperties.rational, invariantproperties.rational);
-
-    CREATE CAST (varchar AS invariantproperties.rational)
-      WITH FUNCTION invariantproperties.rational_string_as_rational(varchar)
-      AS ASSIGNMENT;
-
-    CREATE CAST (int4 AS invariantproperties.rational)
-      WITH FUNCTION invariantproperties.rational_int_as_rational(int4)
-      AS ASSIGNMENT;
-
-    CREATE CAST (int8 AS invariantproperties.rational)
-      WITH FUNCTION invariantproperties.rational_long_as_rational(int8)
-      AS ASSIGNMENT;
     
     /* ------------------------------------------------------------------------------- */
       
