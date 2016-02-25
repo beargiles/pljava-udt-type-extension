@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 import org.postgresql.pljava.annotation.BaseUDT;
 import org.postgresql.pljava.annotation.Function;
 import org.postgresql.pljava.annotation.SQLAction;
+import org.postgresql.pljava.annotation.SQLActions;
 import static
     org.postgresql.pljava.annotation.Function.OnNullInput.RETURNS_NULL;
 import static org.postgresql.pljava.annotation.Function.Effects.IMMUTABLE;
@@ -52,22 +53,46 @@ import com.invariantproperties.udt.Rational;
     internalLength=16,
     alignment=BaseUDT.Alignment.INT4 // can this be right? components are 8 wide
 )
-@SQLAction(requires={"rationalmin", "rationalmax"},
-    install={
-        "CREATE AGGREGATE min(invariantproperties.rational) (" +
-        "sfunc = invariantproperties.min," +
-        "stype = invariantproperties.rational" +
-        ")",
-        "CREATE AGGREGATE max(invariantproperties.rational) (" +
-        "sfunc = invariantproperties.max," +
-        "stype = invariantproperties.rational" +
-        ")"
-    },
-    remove={
-        "DROP AGGREGATE max(invariantproperties.rational)",
-        "DROP AGGREGATE min(invariantproperties.rational)"
-    }
-)
+@SQLActions({
+    @SQLAction(requires={"rationalmin", "rationalmax"},
+        install={
+            "CREATE AGGREGATE min(invariantproperties.rational) (" +
+            "sfunc = invariantproperties.min," +
+            "stype = invariantproperties.rational" +
+            ")",
+            "CREATE AGGREGATE max(invariantproperties.rational) (" +
+            "sfunc = invariantproperties.max," +
+            "stype = invariantproperties.rational" +
+            ")"
+        },
+        remove={
+            "DROP AGGREGATE max(invariantproperties.rational)",
+            "DROP AGGREGATE min(invariantproperties.rational)"
+        }
+    ),
+    @SQLAction(
+        requires={"rationalfromstring", "rationalfromint", "rationalfromlong"},
+        install={
+            "CREATE CAST (varchar AS invariantproperties.rational) " +
+            "WITH FUNCTION " +
+	    "invariantproperties.rational_string_as_rational(varchar)" +
+            "AS ASSIGNMENT",
+
+            "CREATE CAST (int4 AS invariantproperties.rational) " +
+            "WITH FUNCTION invariantproperties.rational_int_as_rational(int4)" +
+            "AS ASSIGNMENT",
+
+            "CREATE CAST (int8 AS invariantproperties.rational) " +
+            "WITH FUNCTION invariantproperties.rational_long_as_rational(int8)"+
+            "AS ASSIGNMENT"
+        },
+        remove={
+	    "DROP CAST (int8 AS invariantproperties.rational)",
+	    "DROP CAST (int4 AS invariantproperties.rational)",
+	    "DROP CAST (varchar AS invariantproperties.rational)"
+        }
+    )
+})
 public class RationalUDT implements SQLData {
     private static final ResourceBundle bundle = ResourceBundle
             .getBundle(ComplexUDT.class.getName());
@@ -428,7 +453,7 @@ public class RationalUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="rational_string_as_rational",
-        requires="rationaludt",
+        requires="rationaludt", provides="rationalfromstring",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static RationalUDT newInstance(String input) throws SQLException {
         if (input == null) {
@@ -445,7 +470,7 @@ public class RationalUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="rational_int_as_rational",
-        requires="rationaludt",
+        requires="rationaludt", provides="rationalfromint",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static RationalUDT newInstance(int value) throws SQLException {
         return new RationalUDT(value);
@@ -459,7 +484,7 @@ public class RationalUDT implements SQLData {
      * @throws SQLException
      */
     @Function(schema="invariantproperties", name="rational_long_as_rational",
-        requires="rationaludt",
+        requires="rationaludt", provides="rationalfromlong",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static RationalUDT newInstance(long value) throws SQLException {
         return new RationalUDT(value);
