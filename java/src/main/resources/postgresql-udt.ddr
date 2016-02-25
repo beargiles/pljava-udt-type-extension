@@ -137,16 +137,6 @@ SQLActions[] = {
     CREATE CAST (int8 AS invariantproperties.rational)
       WITH FUNCTION invariantproperties.rational_long_as_rational(int8)
       AS ASSIGNMENT;
-
-    CREATE AGGREGATE min(invariantproperties.rational) (
-      sfunc = invariantproperties.min,
-      stype = invariantproperties.rational
-    );
-
-    CREATE AGGREGATE max(invariantproperties.rational) (
-      sfunc = invariantproperties.max,
-      stype = invariantproperties.rational
-    );
     
     /* ------------------------------------------------------------------------------- */
       
