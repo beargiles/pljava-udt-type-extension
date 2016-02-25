@@ -430,23 +430,6 @@ public class RationalUDT implements SQLData {
      * @return
      * @throws SQLException
      */
-    @Function(schema="invariantproperties", name="rational_int_as_rational",
-        type="invariantproperties.rational",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    public static RationalUDT newInstance(Integer value) throws SQLException {
-        if (value == null) {
-            return null;
-        }
-        return new RationalUDT(value.longValue());
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param value
-     * @return
-     * @throws SQLException
-     */
     @Function(schema="invariantproperties", name="rational_long_as_rational",
         type="invariantproperties.rational",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
@@ -461,24 +444,6 @@ public class RationalUDT implements SQLData {
      * @return
      * @throws SQLException
      */
-    @Function(schema="invariantproperties", name="rational_long_as_rational",
-        type="invariantproperties.rational",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    public static RationalUDT newInstance(Long value) throws SQLException {
-        if (value == null) {
-            return null;
-        }
-        return new RationalUDT(value.longValue());
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param value
-     * @return
-     * @throws SQLException
-     */
-
     public static Double value(@SQLType("invariantproperties.rational") RationalUDT p) throws SQLException {
         if ((p == null) || (p.value == null)) {
             return null;

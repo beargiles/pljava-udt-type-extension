@@ -249,20 +249,6 @@ public class ComplexUDT implements SQLData {
     }
 
     /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param value
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_double_as_complex",
-        type="invariantproperties.complex",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    public static ComplexUDT newInstance(Double value) throws SQLException {
-        return new ComplexUDT(value);
-    }
-
-    /**
      * Static methods that will be published as user-defined function. This may
      * result in the loss of significant digits.
      * 
