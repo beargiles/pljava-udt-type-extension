@@ -427,42 +427,10 @@ public class RationalUDT implements SQLData {
      * @return
      * @throws SQLException
      */
-    @Function(schema="invariantproperties", name="rational_int_as_rational",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    public static RationalUDT newInstance(Integer value) throws SQLException {
-        if (value == null) {
-            return null;
-        }
-        return new RationalUDT(value.longValue());
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param value
-     * @return
-     * @throws SQLException
-     */
     @Function(schema="invariantproperties", name="rational_long_as_rational",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     public static RationalUDT newInstance(long value) throws SQLException {
         return new RationalUDT(value);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param value
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="rational_long_as_rational",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    public static RationalUDT newInstance(Long value) throws SQLException {
-        if (value == null) {
-            return null;
-        }
-        return new RationalUDT(value.longValue());
     }
 
     /**
