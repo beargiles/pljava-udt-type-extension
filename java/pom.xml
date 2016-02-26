@@ -23,6 +23,12 @@
 					<archive>
 						<manifestSections>
 							<manifestSection>
+								<name>pljava.ddr</name> <!-- filename -->
+								<manifestEntries>
+									<SQLJDeploymentDescriptor>TRUE</SQLJDeploymentDescriptor>
+								</manifestEntries>
+							</manifestSection>
+							<manifestSection>
 								<name>postgresql-udt.ddr</name> <!-- filename -->
 								<manifestEntries>
 									<SQLJDeploymentDescriptor>TRUE</SQLJDeploymentDescriptor>
