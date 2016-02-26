@@ -1,66 +1,16 @@
 SQLActions[] = {
   "BEGIN INSTALL
-    CREATE TYPE invariantproperties.rational;
-
-    /* The scalar input function */
-    CREATE FUNCTION invariantproperties.rational_in(cstring)
-      RETURNS invariantproperties.rational
-      AS 'UDT[com.invariantproperties.udt.sql.RationalUDT] input'
-      LANGUAGE java IMMUTABLE STRICT;
- 
-    /* The scalar output function */
-    CREATE FUNCTION invariantproperties.rational_out(invariantproperties.rational)
-      RETURNS cstring
-      AS 'UDT[com.invariantproperties.udt.sql.RationalUDT] output'
-      LANGUAGE java IMMUTABLE STRICT;
- 
-    /* The scalar receive function */
-    CREATE FUNCTION invariantproperties.rational_recv(internal)
-      RETURNS invariantproperties.rational
-      AS 'UDT[com.invariantproperties.udt.sql.RationalUDT] receive'
-      LANGUAGE java IMMUTABLE STRICT;
- 
-    /* The scalar send function */
-    CREATE FUNCTION invariantproperties.rational_send(invariantproperties.rational)
-      RETURNS bytea
-      AS 'UDT[com.invariantproperties.udt.sql.RationalUDT] send'
-      LANGUAGE java IMMUTABLE STRICT;
-        
-    CREATE TYPE invariantproperties.rational (
-      internallength = 16,
-      input = invariantproperties.rational_in,
-      output = invariantproperties.rational_out,
-      receive = invariantproperties.rational_recv,
-      send = invariantproperties.rational_send,
-      alignment = int);
-      
+      /* this has no implementation in the Java source
       CREATE FUNCTION invariantproperties.numerator(invariantproperties.rational) RETURNS int8
           AS 'com.invariantproperties.udt.sql.RationalUDT.numerator'
           LANGUAGE JAVA IMMUTABLE STRICT;
+      */
       
+      /* this has no implementation in the Java source
       CREATE FUNCTION invariantproperties.denominator(invariantproperties.rational) RETURNS int8
           AS 'com.invariantproperties.udt.sql.RationalUDT.denominator'
           LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_negate(invariantproperties.rational) RETURNS invariantproperties.rational
-          AS 'com.invariantproperties.udt.sql.RationalUDT.negate'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_add(invariantproperties.rational, invariantproperties.rational) RETURNS invariantproperties.rational
-          AS 'com.invariantproperties.udt.sql.RationalUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_subtract(invariantproperties.rational, invariantproperties.rational) RETURNS invariantproperties.rational
-          AS 'com.invariantproperties.udt.sql.RationalUDT.subtract'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.rational_multiply(invariantproperties.rational, invariantproperties.rational) RETURNS invariantproperties.rational
-          AS 'com.invariantproperties.udt.sql.RationalUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.rational_divide(invariantproperties.rational, invariantproperties.rational) RETURNS invariantproperties.rational
-          AS 'com.invariantproperties.udt.sql.RationalUDT.divide'
-          LANGUAGE JAVA IMMUTABLE STRICT;
+      */
 
       CREATE OPERATOR - (
          rightarg = invariantproperties.rational, procedure = invariantproperties.rational_negate
@@ -84,58 +34,12 @@ SQLActions[] = {
          leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_divide
       );
          
-      
-      CREATE FUNCTION invariantproperties.rational_lt(invariantproperties.rational, invariantproperties.rational) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.lessThan'
-          LANGUAGE JAVA IMMUTABLE STRICT;
 
-      CREATE FUNCTION invariantproperties.rational_le(invariantproperties.rational, invariantproperties.rational) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.lessThanOrEquals'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_eq(invariantproperties.rational, invariantproperties.rational) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.equals'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_ne(invariantproperties.rational, invariantproperties.rational) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.notEquals'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-      
-      CREATE FUNCTION invariantproperties.rational_ge(invariantproperties.rational, invariantproperties.rational) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.greaterThanOrEquals'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-      
-      CREATE FUNCTION invariantproperties.rational_gt(invariantproperties.rational, invariantproperties.rational) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.greaterThan'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_cmp(invariantproperties.rational, invariantproperties.rational) RETURNS int
-          AS 'com.invariantproperties.udt.sql.RationalUDT.compare'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_lt(invariantproperties.rational, float8) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.lessThan'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_le(invariantproperties.rational, float8) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.lessThanOrEquals'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_eq(invariantproperties.rational, float8) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.equals'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
+      /* this has no implementation in the Java source
       CREATE FUNCTION invariantproperties.rational_ne(invariantproperties.rational, float8) RETURNS bool
           AS 'com.invariantproperties.udt.sql.RationalUDT.notEquals'
           LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_ge(invariantproperties.rational, float8) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.greaterThanOrEquals'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.rational_gt(invariantproperties.rational, float8) RETURNS bool
-          AS 'com.invariantproperties.udt.sql.RationalUDT.greaterThan'
-          LANGUAGE JAVA IMMUTABLE STRICT;
+      */
 
       CREATE OPERATOR < (
          leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_lt,
@@ -220,18 +124,6 @@ SQLActions[] = {
         OPERATOR        5       > ,
         FUNCTION        1       invariantproperties.rational_cmp(invariantproperties.rational, invariantproperties.rational);
 
-    CREATE FUNCTION invariantproperties.rational_string_as_rational(varchar) RETURNS invariantproperties.rational
-        AS 'com.invariantproperties.udt.sql.RationalUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
-    CREATE FUNCTION invariantproperties.rational_int_as_rational(int4) RETURNS invariantproperties.rational
-        AS 'com.invariantproperties.udt.sql.RationalUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
-    CREATE FUNCTION invariantproperties.rational_long_as_rational(int8) RETURNS invariantproperties.rational
-        AS 'com.invariantproperties.udt.sql.RationalUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
     CREATE CAST (varchar AS invariantproperties.rational)
       WITH FUNCTION invariantproperties.rational_string_as_rational(varchar)
       AS ASSIGNMENT;
@@ -244,14 +136,6 @@ SQLActions[] = {
       WITH FUNCTION invariantproperties.rational_long_as_rational(int8)
       AS ASSIGNMENT;
 
-    CREATE FUNCTION invariantproperties.min(invariantproperties.rational, invariantproperties.rational) RETURNS invariantproperties.rational
-        AS 'com.invariantproperties.udt.sql.RationalUDT.min'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
-    CREATE FUNCTION invariantproperties.max(invariantproperties.rational, invariantproperties.rational) RETURNS invariantproperties.rational
-        AS 'com.invariantproperties.udt.sql.RationalUDT.max'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
     CREATE AGGREGATE min(invariantproperties.rational) (
       sfunc = invariantproperties.min,
       stype = invariantproperties.rational
@@ -263,160 +147,30 @@ SQLActions[] = {
     );
     
     /* ------------------------------------------------------------------------------- */
-    
-    CREATE TYPE invariantproperties.complex;
-
-    /* The scalar input function */
-    CREATE FUNCTION invariantproperties.complex_in(cstring)
-      RETURNS invariantproperties.complex
-      AS 'UDT[com.invariantproperties.udt.sql.ComplexUDT] input'
-      LANGUAGE java IMMUTABLE STRICT;
- 
-    /* The scalar output function */
-    CREATE FUNCTION invariantproperties.complex_out(invariantproperties.complex)
-      RETURNS cstring
-      AS 'UDT[com.invariantproperties.udt.sql.ComplexUDT] output'
-      LANGUAGE java IMMUTABLE STRICT;
- 
-    /* The scalar receive function */
-    CREATE FUNCTION invariantproperties.complex_recv(internal)
-      RETURNS invariantproperties.complex
-      AS 'UDT[com.invariantproperties.udt.sql.ComplexUDT] receive'
-      LANGUAGE java IMMUTABLE STRICT;
- 
-    /* The scalar send function */
-    CREATE FUNCTION invariantproperties.complex_send(invariantproperties.complex)
-      RETURNS bytea
-      AS 'UDT[com.invariantproperties.udt.sql.ComplexUDT] send'
-      LANGUAGE java IMMUTABLE STRICT;
-        
-    CREATE TYPE invariantproperties.complex (
-      internallength = 16,
-      input = invariantproperties.complex_in,
-      output = invariantproperties.complex_out,
-      receive = invariantproperties.complex_recv,
-      send = invariantproperties.complex_send,
-      alignment = int);
       
+      /* this has no implementation in the Java source
       CREATE FUNCTION invariantproperties.re(invariantproperties.complex) RETURNS float8
           AS 'com.invariantproperties.udt.sql.ComplexUDT.numerator'
           LANGUAGE JAVA IMMUTABLE STRICT;
+      */
       
+      /* this has no implementation in the Java source
       CREATE FUNCTION invariantproperties.im(invariantproperties.complex) RETURNS float8
           AS 'com.invariantproperties.udt.sql.ComplexUDT.denominator'
           LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_negate(invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.negate'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(invariantproperties.complex, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(invariantproperties.complex, int4) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(invariantproperties.complex, int8) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(invariantproperties.complex, float4) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(invariantproperties.complex, float8) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(invariantproperties.complex, numeric) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(int4, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(int8, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(float4, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(float8, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_add(numeric, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.add'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-
-      CREATE FUNCTION invariantproperties.complex_subtract(invariantproperties.complex, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.subtract'
-          LANGUAGE JAVA IMMUTABLE STRICT;
+      */
           
-      CREATE FUNCTION invariantproperties.complex_multiply(invariantproperties.complex, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(invariantproperties.complex, int4) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(invariantproperties.complex, int8) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(invariantproperties.complex, float4) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(invariantproperties.complex, float8) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(invariantproperties.complex, numeric) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(int4, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(int8, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(float4, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(float8, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
-      CREATE FUNCTION invariantproperties.complex_multiply(numeric, invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.multiply'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-          
+      /* this has no implementation in the Java source
       CREATE FUNCTION invariantproperties.complex_divide(invariantproperties.complex, invariantproperties.complex) RETURNS invariantproperties.complex
           AS 'com.invariantproperties.udt.sql.ComplexUDT.divide'
           LANGUAGE JAVA IMMUTABLE STRICT;
+      */
          
+      /* this return type differs from what is in the Java source
       CREATE FUNCTION invariantproperties.abs(invariantproperties.complex) RETURNS float8
           AS 'com.invariantproperties.udt.sql.ComplexUDT.abs'
           LANGUAGE JAVA IMMUTABLE STRICT;
-         
-      CREATE FUNCTION invariantproperties.conjugate(invariantproperties.complex) RETURNS invariantproperties.complex
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.conjugate'
-          LANGUAGE JAVA IMMUTABLE STRICT;
-         
-      CREATE FUNCTION invariantproperties.magnitude(invariantproperties.complex) RETURNS float8
-          AS 'com.invariantproperties.udt.sql.ComplexUDT.magnitude'
-          LANGUAGE JAVA IMMUTABLE STRICT;
+      */
           
       CREATE OPERATOR - (
          rightarg = invariantproperties.complex, procedure = invariantproperties.complex_negate
@@ -539,26 +293,6 @@ SQLActions[] = {
       CREATE OPERATOR / (
          leftarg = invariantproperties.complex, rightarg = invariantproperties.complex, procedure = invariantproperties.complex_divide
       );
-
-    CREATE FUNCTION invariantproperties.complex_string_as_complex(varchar) RETURNS invariantproperties.complex
-        AS 'com.invariantproperties.udt.sql.ComplexUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
-    CREATE FUNCTION invariantproperties.complex_double_as_complex(float8) RETURNS invariantproperties.complex
-        AS 'com.invariantproperties.udt.sql.ComplexUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
-    CREATE FUNCTION invariantproperties.complex_bigdecimal_as_complex(numeric) RETURNS invariantproperties.complex
-        AS 'com.invariantproperties.udt.sql.ComplexUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
-    CREATE FUNCTION invariantproperties.complex_int_as_complex(int4) RETURNS invariantproperties.complex
-        AS 'com.invariantproperties.udt.sql.ComplexUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
-
-    CREATE FUNCTION invariantproperties.complex_long_as_complex(int8) RETURNS invariantproperties.complex
-        AS 'com.invariantproperties.udt.sql.ComplexUDT.newInstance'
-        LANGUAGE JAVA IMMUTABLE STRICT;
 
     CREATE CAST (varchar AS invariantproperties.complex)
       WITH FUNCTION invariantproperties.complex_string_as_complex(varchar)
