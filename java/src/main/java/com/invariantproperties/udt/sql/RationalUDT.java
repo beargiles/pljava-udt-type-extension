@@ -29,7 +29,9 @@ import java.sql.SQLOutput;
 import java.util.ResourceBundle;
 
 import org.postgresql.pljava.annotation.BaseUDT;
+import org.postgresql.pljava.annotation.Cast;
 import org.postgresql.pljava.annotation.Function;
+import static org.postgresql.pljava.annotation.Cast.Application.ASSIGNMENT;
 import static
     org.postgresql.pljava.annotation.Function.OnNullInput.RETURNS_NULL;
 import static org.postgresql.pljava.annotation.Function.Effects.IMMUTABLE;
@@ -400,6 +402,7 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="rational_string_as_rational",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static RationalUDT newInstance(String input) throws SQLException {
         if (input == null) {
             return null;
@@ -416,6 +419,7 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="rational_int_as_rational",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static RationalUDT newInstance(int value) throws SQLException {
         return new RationalUDT(value);
     }
@@ -429,6 +433,7 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="rational_long_as_rational",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static RationalUDT newInstance(long value) throws SQLException {
         return new RationalUDT(value);
     }

@@ -126,18 +126,6 @@ SQLActions[] = {
         OPERATOR        5       > ,
         FUNCTION        1       invariantproperties.rational_cmp(invariantproperties.rational, invariantproperties.rational);
 
-    CREATE CAST (varchar AS invariantproperties.rational)
-      WITH FUNCTION invariantproperties.rational_string_as_rational(varchar)
-      AS ASSIGNMENT;
-
-    CREATE CAST (int4 AS invariantproperties.rational)
-      WITH FUNCTION invariantproperties.rational_int_as_rational(int4)
-      AS ASSIGNMENT;
-
-    CREATE CAST (int8 AS invariantproperties.rational)
-      WITH FUNCTION invariantproperties.rational_long_as_rational(int8)
-      AS ASSIGNMENT;
-
     CREATE AGGREGATE min(invariantproperties.rational) (
       sfunc = invariantproperties.min,
       stype = invariantproperties.rational
@@ -298,34 +286,9 @@ SQLActions[] = {
       );
       */
 
-    CREATE CAST (varchar AS invariantproperties.complex)
-      WITH FUNCTION invariantproperties.complex_string_as_complex(varchar)
-      AS ASSIGNMENT;
-
-    CREATE CAST (numeric AS invariantproperties.complex)
-      WITH FUNCTION invariantproperties.complex_bigdecimal_as_complex(numeric)
-      AS ASSIGNMENT;
-
-    CREATE CAST (float8 AS invariantproperties.complex)
-      WITH FUNCTION invariantproperties.complex_double_as_complex(float8)
-      AS ASSIGNMENT;
-
-    CREATE CAST (int4 AS invariantproperties.complex)
-      WITH FUNCTION invariantproperties.complex_int_as_complex(int4)
-      AS ASSIGNMENT;
-
-    CREATE CAST (int8 AS invariantproperties.complex)
-      WITH FUNCTION invariantproperties.complex_long_as_complex(int8)
-      AS ASSIGNMENT;
-
    END INSTALL",
 
    "BEGIN REMOVE
-    DROP CAST (int8 AS invariantproperties.complex);
-    DROP CAST (int4 AS invariantproperties.complex);
-    DROP CAST (float8 AS invariantproperties.complex);
-    DROP CAST (numeric AS invariantproperties.complex);
-    DROP CAST (varchar AS invariantproperties.complex);
     /* DROP OPERATOR / ( invariantproperties.complex, invariantproperties.complex ); */
     DROP OPERATOR * ( numeric, invariantproperties.complex );
     DROP OPERATOR * ( float8, invariantproperties.complex );

@@ -30,7 +30,9 @@ import java.sql.SQLOutput;
 import java.util.ResourceBundle;
 
 import org.postgresql.pljava.annotation.BaseUDT;
+import org.postgresql.pljava.annotation.Cast;
 import org.postgresql.pljava.annotation.Function;
+import static org.postgresql.pljava.annotation.Cast.Application.ASSIGNMENT;
 import static
     org.postgresql.pljava.annotation.Function.OnNullInput.RETURNS_NULL;
 import static org.postgresql.pljava.annotation.Function.Effects.IMMUTABLE;
@@ -225,6 +227,7 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_string_as_complex",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static ComplexUDT newInstance(String input) throws SQLException {
         if (input == null) {
             return null;
@@ -241,6 +244,7 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_double_as_complex",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static ComplexUDT newInstance(double value) throws SQLException {
         return new ComplexUDT(value);
     }
@@ -256,6 +260,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties",
         name="complex_bigdecimal_as_complex",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static ComplexUDT newInstance(BigDecimal value) throws SQLException {
         return new ComplexUDT(value.doubleValue());
     }
@@ -269,6 +274,7 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_int_as_complex",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static ComplexUDT newInstance(int value) throws SQLException {
         return new ComplexUDT(value);
     }
@@ -282,6 +288,7 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_long_as_complex",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Cast(application=ASSIGNMENT)
     public static ComplexUDT newInstance(long value) throws SQLException {
         return new ComplexUDT(value);
     }
