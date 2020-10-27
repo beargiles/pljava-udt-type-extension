@@ -28,6 +28,8 @@ import java.sql.SQLException;
 import java.sql.SQLInput;
 import java.sql.SQLOutput;
 import java.util.ResourceBundle;
+import static java.util.ResourceBundle.Control.getControl;
+import static java.util.ResourceBundle.Control.FORMAT_PROPERTIES;
 
 import com.invariantproperties.udt.Complex;
 
@@ -41,8 +43,8 @@ import com.invariantproperties.udt.Complex;
  * @author bgiles@coyotesong.com
  */
 public class ComplexUDT implements SQLData {
-    private static final ResourceBundle bundle = ResourceBundle
-            .getBundle(ComplexUDT.class.getName());
+    private static final ResourceBundle bundle = ResourceBundle.getBundle(
+	ComplexUDT.class.getName(), getControl(FORMAT_PROPERTIES));
     private static final String TYPE_NAME = bundle.getString("typeName");
     private Complex value;
     private String typeName;
