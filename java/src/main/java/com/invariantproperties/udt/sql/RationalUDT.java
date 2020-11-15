@@ -38,6 +38,7 @@ import static
     org.postgresql.pljava.annotation.Function.OnNullInput.RETURNS_NULL;
 import static org.postgresql.pljava.annotation.Function.Effects.IMMUTABLE;
 import static org.postgresql.pljava.annotation.Operator.SELF;
+import static org.postgresql.pljava.annotation.Operator.TWIN;
 import static org.postgresql.pljava.annotation.Operator.SelectivityEstimators.*;
 
 import com.invariantproperties.udt.Rational;
@@ -339,9 +340,9 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="rational_eq",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name =  "=", commutator =  "=", negator = "<>",
+    @Operator(name =  "=", commutator = TWIN, negator = "<>",
         restrict = EQSEL, join = EQJOINSEL)
-    @Operator(name = "==", commutator = "==", negator = "<>",
+    @Operator(name = "==", commutator = TWIN, negator = "<>",
         restrict = EQSEL, join = EQJOINSEL)
     @Operator(name = "<>", synthetic = "invariantproperties.rational_ne",
         negator = "==", restrict = NEQSEL, join = NEQJOINSEL)

@@ -38,6 +38,7 @@ import static
     org.postgresql.pljava.annotation.Function.OnNullInput.RETURNS_NULL;
 import static org.postgresql.pljava.annotation.Function.Effects.IMMUTABLE;
 import static org.postgresql.pljava.annotation.Operator.SELF;
+import static org.postgresql.pljava.annotation.Operator.TWIN;
 import static org.postgresql.pljava.annotation.Operator.SelectivityEstimators.*;
 
 import com.invariantproperties.udt.Complex;
@@ -343,8 +344,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
+    @Operator(name = "+", commutator = TWIN)
+    @Operator(name = "+", synthetic = TWIN)
     public static ComplexUDT add(ComplexUDT p, int q) throws SQLException {
         return add(p, (double) q);
     }
@@ -359,8 +360,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
+    @Operator(name = "+", commutator = TWIN)
+    @Operator(name = "+", synthetic = TWIN)
     public static ComplexUDT add(ComplexUDT p, long q) throws SQLException {
         return add(p, (double) q);
     }
@@ -375,8 +376,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
+    @Operator(name = "+", commutator = TWIN)
+    @Operator(name = "+", synthetic = TWIN)
     public static ComplexUDT add(ComplexUDT p, float q) throws SQLException {
         return add(p, (double) q);
     }
@@ -391,8 +392,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
+    @Operator(name = "+", commutator = TWIN)
+    @Operator(name = "+", synthetic = TWIN)
     public static ComplexUDT add(ComplexUDT p, double q) throws SQLException {
         if ((p == null) || (p.value == null)) {
             return null;
@@ -410,8 +411,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
+    @Operator(name = "+", commutator = TWIN)
+    @Operator(name = "+", synthetic = TWIN)
     public static ComplexUDT add(ComplexUDT p, BigDecimal q)
             throws SQLException {
         return add(p, q.doubleValue());
@@ -467,8 +468,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
+    @Operator(name = "*", commutator = TWIN)
+    @Operator(name = "*", synthetic = TWIN)
     public static ComplexUDT multiply(ComplexUDT p, int q) throws SQLException {
         return multiply(p, (double) q);
     }
@@ -483,8 +484,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
+    @Operator(name = "*", commutator = TWIN)
+    @Operator(name = "*", synthetic = TWIN)
     public static ComplexUDT multiply(ComplexUDT p, long q) throws SQLException {
         return multiply(p, (double) q);
     }
@@ -499,8 +500,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
+    @Operator(name = "*", commutator = TWIN)
+    @Operator(name = "*", synthetic = TWIN)
     public static ComplexUDT multiply(ComplexUDT p, float q)
             throws SQLException {
         return multiply(p, (double) q);
@@ -516,8 +517,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
+    @Operator(name = "*", commutator = TWIN)
+    @Operator(name = "*", synthetic = TWIN)
     public static ComplexUDT multiply(ComplexUDT p, double q)
             throws SQLException {
         if ((p == null) || (p.value == null)) {
@@ -536,8 +537,8 @@ public class ComplexUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
+    @Operator(name = "*", commutator = TWIN)
+    @Operator(name = "*", synthetic = TWIN)
     public static ComplexUDT multiply(ComplexUDT p, BigDecimal q)
             throws SQLException {
         return multiply(p, q.doubleValue());
