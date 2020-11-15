@@ -344,6 +344,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "+", commutator = "+")
+    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
     public static ComplexUDT add(ComplexUDT p, int q) throws SQLException {
         return add(p, (double) q);
     }
@@ -359,6 +360,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "+", commutator = "+")
+    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
     public static ComplexUDT add(ComplexUDT p, long q) throws SQLException {
         return add(p, (double) q);
     }
@@ -374,6 +376,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "+", commutator = "+")
+    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
     public static ComplexUDT add(ComplexUDT p, float q) throws SQLException {
         return add(p, (double) q);
     }
@@ -389,6 +392,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "+", commutator = "+")
+    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
     public static ComplexUDT add(ComplexUDT p, double q) throws SQLException {
         if ((p == null) || (p.value == null)) {
             return null;
@@ -407,83 +411,8 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_add",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "+", commutator = "+")
+    @Operator(name = "+", synthetic = "invariantproperties.complex_add")
     public static ComplexUDT add(ComplexUDT p, BigDecimal q)
-            throws SQLException {
-        return add(p, q.doubleValue());
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_add",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    public static ComplexUDT add(int q, ComplexUDT p) throws SQLException {
-        return add(p, (double) q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_add",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    public static ComplexUDT add(long q, ComplexUDT p) throws SQLException {
-        return add(p, (double) q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_add",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    public static ComplexUDT add(float q, ComplexUDT p) throws SQLException {
-        return add(p, (double) q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_add",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    public static ComplexUDT add(double q, ComplexUDT p) throws SQLException {
-        return add(p, q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_add",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "+", commutator = "+")
-    public static ComplexUDT add(BigDecimal q, ComplexUDT p)
             throws SQLException {
         return add(p, q.doubleValue());
     }
@@ -539,6 +468,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "*", commutator = "*")
+    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
     public static ComplexUDT multiply(ComplexUDT p, int q) throws SQLException {
         return multiply(p, (double) q);
     }
@@ -554,6 +484,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "*", commutator = "*")
+    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
     public static ComplexUDT multiply(ComplexUDT p, long q) throws SQLException {
         return multiply(p, (double) q);
     }
@@ -569,6 +500,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "*", commutator = "*")
+    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
     public static ComplexUDT multiply(ComplexUDT p, float q)
             throws SQLException {
         return multiply(p, (double) q);
@@ -585,6 +517,7 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "*", commutator = "*")
+    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
     public static ComplexUDT multiply(ComplexUDT p, double q)
             throws SQLException {
         if ((p == null) || (p.value == null)) {
@@ -604,85 +537,8 @@ public class ComplexUDT implements SQLData {
     @Function(schema="invariantproperties", name="complex_multiply",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "*", commutator = "*")
+    @Operator(name = "*", synthetic = "invariantproperties.complex_multiply")
     public static ComplexUDT multiply(ComplexUDT p, BigDecimal q)
-            throws SQLException {
-        return multiply(p, q.doubleValue());
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_multiply",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    public static ComplexUDT multiply(int q, ComplexUDT p) throws SQLException {
-        return multiply(p, (double) q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_multiply",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    public static ComplexUDT multiply(long q, ComplexUDT p) throws SQLException {
-        return multiply(p, (double) q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_multiply",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    public static ComplexUDT multiply(float q, ComplexUDT p)
-            throws SQLException {
-        return multiply(p, (double) q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_multiply",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    public static ComplexUDT multiply(double q, ComplexUDT p)
-            throws SQLException {
-        return multiply(p, (double) q);
-    }
-
-    /**
-     * Static methods that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     * @throws SQLException
-     */
-    @Function(schema="invariantproperties", name="complex_multiply",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "*", commutator = "*")
-    public static ComplexUDT multiply(BigDecimal q, ComplexUDT p)
             throws SQLException {
         return multiply(p, q.doubleValue());
     }
