@@ -100,10 +100,12 @@ SQLActions[] = {
          commutator = == , negator = <> 
       );
 
+      /* this has no implementation in the Java source
       CREATE OPERATOR <> (
          leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_ne,
          commutator = <> , negator = == 
       );
+      */
 
       CREATE OPERATOR >= (
          leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_ge,
@@ -290,9 +292,11 @@ SQLActions[] = {
          commutator = * 
       );
 
+      /* this has no implementation in the Java source
       CREATE OPERATOR / (
          leftarg = invariantproperties.complex, rightarg = invariantproperties.complex, procedure = invariantproperties.complex_divide
       );
+      */
 
     CREATE CAST (varchar AS invariantproperties.complex)
       WITH FUNCTION invariantproperties.complex_string_as_complex(varchar)
@@ -315,9 +319,68 @@ SQLActions[] = {
       AS ASSIGNMENT;
 
    END INSTALL",
-   
-  "BEGIN REMOVE
-    DROP TYPE invariantproperties.complex cascade;
-    DROP TYPE invariantproperties.rational cascade;
-  END REMOVE"
+
+   "BEGIN REMOVE
+    DROP CAST (int8 AS invariantproperties.complex);
+    DROP CAST (int4 AS invariantproperties.complex);
+    DROP CAST (float8 AS invariantproperties.complex);
+    DROP CAST (numeric AS invariantproperties.complex);
+    DROP CAST (varchar AS invariantproperties.complex);
+    /* DROP OPERATOR / ( invariantproperties.complex, invariantproperties.complex ); */
+    DROP OPERATOR * ( numeric, invariantproperties.complex );
+    DROP OPERATOR * ( float8, invariantproperties.complex );
+    DROP OPERATOR * ( float4, invariantproperties.complex );
+    DROP OPERATOR * ( int8, invariantproperties.complex );
+    DROP OPERATOR * ( int4, invariantproperties.complex );
+    DROP OPERATOR * ( invariantproperties.complex, numeric );
+    DROP OPERATOR * ( invariantproperties.complex, float8 );
+    DROP OPERATOR * ( invariantproperties.complex, float4 );
+    DROP OPERATOR * ( invariantproperties.complex, int8 );
+    DROP OPERATOR * ( invariantproperties.complex, int4 );
+    DROP OPERATOR * ( invariantproperties.complex, invariantproperties.complex );
+    DROP OPERATOR - ( invariantproperties.complex, invariantproperties.complex );
+    DROP OPERATOR + ( numeric, invariantproperties.complex );
+    DROP OPERATOR + ( float8, invariantproperties.complex );
+    DROP OPERATOR + ( float4, invariantproperties.complex );
+    DROP OPERATOR + ( int8, invariantproperties.complex );
+    DROP OPERATOR + ( int4, invariantproperties.complex );
+    DROP OPERATOR + ( invariantproperties.complex, numeric );
+    DROP OPERATOR + ( invariantproperties.complex, float8 );
+    DROP OPERATOR + ( invariantproperties.complex, float4 );
+    DROP OPERATOR + ( invariantproperties.complex, int8 );
+    DROP OPERATOR + ( invariantproperties.complex, int4 );
+    DROP OPERATOR + ( invariantproperties.complex, invariantproperties.complex );
+    DROP OPERATOR - ( none, invariantproperties.complex );
+    /*
+    DROP FUNCTION invariantproperties.abs(invariantproperties.complex);
+    DROP FUNCTION invariantproperties.complex_divide(invariantproperties.complex, invariantproperties.complex);
+    DROP FUNCTION invariantproperties.im(invariantproperties.complex);
+    DROP FUNCTION invariantproperties.re(invariantproperties.complex);
+    */
+    DROP OPERATOR FAMILY rational_ops USING btree;
+    DROP OPERATOR > ( invariantproperties.rational, float8 );
+    DROP OPERATOR >= ( invariantproperties.rational, float8 );
+    /* DROP OPERATOR <> ( invariantproperties.rational, float8 ); */
+    DROP OPERATOR == ( invariantproperties.rational, float8 );
+    DROP OPERATOR = ( invariantproperties.rational, float8 );
+    DROP OPERATOR <= ( invariantproperties.rational, float8 );
+    DROP OPERATOR < ( invariantproperties.rational, float8 );
+    DROP OPERATOR > ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR >= ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR <> ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR == ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR = ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR <= ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR < ( invariantproperties.rational, invariantproperties.rational );
+    /* DROP FUNCTION invariantproperties.rational_ne(invariantproperties.rational, float8); */
+    DROP OPERATOR / ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR * ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR - ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR + ( invariantproperties.rational, invariantproperties.rational );
+    DROP OPERATOR - ( none, invariantproperties.rational );
+    /*
+    DROP FUNCTION invariantproperties.denominator(invariantproperties.rational);
+    DROP FUNCTION invariantproperties.numerator(invariantproperties.rational);
+    */
+   END REMOVE"
 }
