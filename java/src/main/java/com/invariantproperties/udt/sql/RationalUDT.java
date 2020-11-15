@@ -54,22 +54,6 @@ import com.invariantproperties.udt.Rational;
     internalLength=16,
     alignment=BaseUDT.Alignment.INT4 // can this be right? components are 8 wide
 )
-@Aggregate(
-    name = "min",
-    arguments = "x invariantproperties.rational", // a parameter can be named
-    plan = @Aggregate.Plan(
-	stateType = "invariantproperties.rational",
-	accumulate = "invariantproperties.min"
-    )
-)
-@Aggregate(
-    name = "max",
-    arguments = "/**/ invariantproperties.rational", // or not named
-    plan = @Aggregate.Plan(
-	stateType = "invariantproperties.rational",
-	accumulate = "invariantproperties.max"
-    )
-)
 public class RationalUDT implements SQLData {
     private static final ResourceBundle bundle = ResourceBundle
             .getBundle(ComplexUDT.class.getName());
@@ -480,6 +464,7 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Aggregate(name="min") // if inferred, would have schema invariantproperties
     public static RationalUDT min(RationalUDT p, RationalUDT q) {
         if ((p == null) || (p.value == null) || (q == null)
                 || (q.value == null)) {
@@ -498,6 +483,7 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Aggregate(name="max") // if inferred, would have schema invariantproperties
     public static RationalUDT max(RationalUDT p, RationalUDT q) {
         if ((p == null) || (p.value == null) || (q == null)
                 || (q.value == null)) {
