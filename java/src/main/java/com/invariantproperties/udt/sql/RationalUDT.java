@@ -250,6 +250,8 @@ public class RationalUDT implements SQLData {
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "<", commutator = ">", negator = ">=",
         restrict = SCALARLTSEL, join = SCALARLTJOINSEL)
+    @Operator(name = ">", synthetic = "invariantproperties.rational_gt",
+        negator = "<=", restrict = SCALARGTSEL, join = SCALARGTJOINSEL)
     public static boolean lessThan(RationalUDT p, RationalUDT q) {
         return compare(p, q) < 0;
     }
@@ -280,22 +282,10 @@ public class RationalUDT implements SQLData {
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name =  "=", commutator = SELF, negator = "<>")
     @Operator(name = "==", commutator = SELF, negator = "<>")
+    @Operator(name = "<>", synthetic = "invariantproperties.rational_ne",
+        commutator = SELF, negator = "==")
     public static boolean equals(RationalUDT p, RationalUDT q) {
         return compare(p, q) == 0;
-    }
-
-    /**
-     * Static comparison method that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     */
-    @Function(schema="invariantproperties", name="rational_ne",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "<>", commutator = SELF, negator = "==")
-    public static boolean notEquals(RationalUDT p, RationalUDT q) {
-        return !equals(p, q);
     }
 
     /**
@@ -320,46 +310,19 @@ public class RationalUDT implements SQLData {
      * @param q
      * @return
      */
-    @Function(schema="invariantproperties", name="rational_gt",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = ">", commutator = "<", negator = "<=",
-        restrict = SCALARGTSEL, join = SCALARGTJOINSEL)
-    public static boolean greaterThan(RationalUDT p, RationalUDT q) {
-        return lessThan(q, p);
-    }
-
-    /**
-     * Static comparison method that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     */
     @Function(schema="invariantproperties", name="rational_lt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "<", commutator = ">", negator = ">=")
+    @Operator(name = "<=", synthetic = "invariantproperties.rational_le")
+    @Operator(name = ">=", synthetic = "invariantproperties.rational_ge",
+        commutator = "<=")
+    @Operator(name = ">", synthetic = "invariantproperties.rational_gt",
+        negator = "<=")
     public static boolean lessThan(RationalUDT p, double q) {
         if ((p == null) || (p.value == null)) {
             return false;
         }
         return p.value.compareTo(q) < 0;
-    }
-
-    /**
-     * Static comparison method that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     */
-    @Function(schema="invariantproperties", name="rational_le",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "<=", commutator = ">=", negator = ">")
-    public static boolean lessThanOrEquals(RationalUDT p, double q) {
-        if ((p == null) || (p.value == null)) {
-            return false;
-        }
-        return p.value.compareTo(q) <= 0;
     }
 
     /**
@@ -378,40 +341,6 @@ public class RationalUDT implements SQLData {
             return false;
         }
         return p.value.compareTo(q) == 0;
-    }
-
-    /**
-     * Static comparison method that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     */
-    @Function(schema="invariantproperties", name="rational_ge",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = ">=", commutator = "<=", negator = "<")
-    public static boolean greaterThanOrEquals(RationalUDT p, double q) {
-        if ((p == null) || (p.value == null)) {
-            return true;
-        }
-        return p.value.compareTo(q) >= 0;
-    }
-
-    /**
-     * Static comparison method that will be published as user-defined function.
-     * 
-     * @param p
-     * @param q
-     * @return
-     */
-    @Function(schema="invariantproperties", name="rational_gt",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = ">", commutator = "<", negator = "<=")
-    public static boolean greaterThan(RationalUDT p, double q) {
-        if ((p == null) || (p.value == null)) {
-            return true;
-        }
-        return p.value.compareTo(q) > 0;
     }
 
     /**
