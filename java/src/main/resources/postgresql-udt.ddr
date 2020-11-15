@@ -125,16 +125,6 @@ SQLActions[] = {
         OPERATOR        4       >= ,
         OPERATOR        5       > ,
         FUNCTION        1       invariantproperties.rational_cmp(invariantproperties.rational, invariantproperties.rational);
-
-    CREATE AGGREGATE min(invariantproperties.rational) (
-      sfunc = invariantproperties.min,
-      stype = invariantproperties.rational
-    );
-
-    CREATE AGGREGATE max(invariantproperties.rational) (
-      sfunc = invariantproperties.max,
-      stype = invariantproperties.rational
-    );
     
     /* ------------------------------------------------------------------------------- */
       
