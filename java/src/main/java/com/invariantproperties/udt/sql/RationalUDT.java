@@ -266,7 +266,7 @@ public class RationalUDT implements SQLData {
     @Function(schema="invariantproperties", name="rational_le",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = "<=", commutator = ">=", negator = ">",
-        restrict = SCALARLTSEL, join = SCALARLTJOINSEL)
+        restrict = SCALARLESEL, join = SCALARLEJOINSEL)
     public static boolean lessThanOrEquals(RationalUDT p, RationalUDT q) {
         return compare(p, q) <= 0;
     }
@@ -280,10 +280,13 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="rational_eq",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name =  "=", commutator = SELF, negator = "<>")
-    @Operator(name = "==", commutator = SELF, negator = "<>")
+    @Operator(name =  "=", commutator = SELF, negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
+    @Operator(name = "==", commutator = SELF, negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
     @Operator(name = "<>", synthetic = "invariantproperties.rational_ne",
-        commutator = SELF, negator = "==")
+        commutator = SELF, negator = "==",
+        restrict = NEQSEL, join = NEQJOINSEL)
     public static boolean equals(RationalUDT p, RationalUDT q) {
         return compare(p, q) == 0;
     }
@@ -298,7 +301,7 @@ public class RationalUDT implements SQLData {
     @Function(schema="invariantproperties", name="rational_ge",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name = ">=", commutator = "<=", negator = "<",
-        restrict = SCALARLTSEL, join = SCALARLTJOINSEL)
+        restrict = SCALARGESEL, join = SCALARGEJOINSEL)
     public static boolean greaterThanOrEquals(RationalUDT p, RationalUDT q) {
         return lessThanOrEquals(q, p);
     }
@@ -312,12 +315,14 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="rational_lt",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name = "<", commutator = ">", negator = ">=")
-    @Operator(name = "<=", synthetic = "invariantproperties.rational_le")
+    @Operator(name = "<", commutator = ">", negator = ">=",
+        restrict = SCALARLTSEL, join = SCALARLTJOINSEL)
+    @Operator(name = "<=", synthetic = "invariantproperties.rational_le",
+        restrict = SCALARLESEL, join = SCALARLEJOINSEL)
     @Operator(name = ">=", synthetic = "invariantproperties.rational_ge",
-        commutator = "<=")
+        commutator = "<=", restrict = SCALARGESEL, join = SCALARGEJOINSEL)
     @Operator(name = ">", synthetic = "invariantproperties.rational_gt",
-        negator = "<=")
+        negator = "<=", restrict = SCALARGTSEL, join = SCALARGTJOINSEL)
     public static boolean lessThan(RationalUDT p, double q) {
         if ((p == null) || (p.value == null)) {
             return false;
@@ -334,8 +339,12 @@ public class RationalUDT implements SQLData {
      */
     @Function(schema="invariantproperties", name="rational_eq",
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name =  "=", commutator =  "=", negator = "<>")
-    @Operator(name = "==", commutator = "==", negator = "<>")
+    @Operator(name =  "=", commutator =  "=", negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
+    @Operator(name = "==", commutator = "==", negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
+    @Operator(name = "<>", synthetic = "invariantproperties.rational_ne",
+        negator = "==", restrict = NEQSEL, join = NEQJOINSEL)
     public static boolean equals(RationalUDT p, double q) {
         if ((p == null) || (p.value == null)) {
             return false;
