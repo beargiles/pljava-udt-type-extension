@@ -12,93 +12,11 @@ SQLActions[] = {
           LANGUAGE JAVA IMMUTABLE STRICT;
       */
 
-      CREATE OPERATOR - (
-         rightarg = invariantproperties.rational, procedure = invariantproperties.rational_negate
-      );
-
-      CREATE OPERATOR + (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR - (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_subtract
-      );
-
-      CREATE OPERATOR * (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR / (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_divide
-      );
-         
-
       /* this has no implementation in the Java source
       CREATE FUNCTION invariantproperties.rational_ne(invariantproperties.rational, float8) RETURNS bool
           AS 'com.invariantproperties.udt.sql.RationalUDT.notEquals'
           LANGUAGE JAVA IMMUTABLE STRICT;
       */
-
-      CREATE OPERATOR < (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_lt,
-         commutator = > , negator = >= ,
-         restrict = scalarltsel, join = scalarltjoinsel
-      );
-
-      CREATE OPERATOR <= (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_le,
-         commutator = >= , negator = > , 
-         restrict = scalarltsel, join = scalarltjoinsel
-      );
-
-      CREATE OPERATOR = (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_eq,
-         commutator = = , negator = <> 
-      );
-
-      CREATE OPERATOR == (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_eq,
-         commutator = == , negator = <> 
-      );
-
-      CREATE OPERATOR <> (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_ne,
-         commutator = <> , negator = == 
-      );
-
-      CREATE OPERATOR >= (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_ge,
-         commutator = <= , negator = < ,
-         restrict = scalarltsel, join = scalarltjoinsel
-      );
-
-      CREATE OPERATOR > (
-         leftarg = invariantproperties.rational, rightarg = invariantproperties.rational, procedure = invariantproperties.rational_gt,
-         commutator = < , negator = <= , 
-         restrict = scalargtsel, join = scalargtjoinsel
-      );
-
-      CREATE OPERATOR < (
-         leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_lt,
-         commutator = > , negator = >= 
-      );
-
-      CREATE OPERATOR <= (
-         leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_le,
-         commutator = >= , negator = > 
-      );
-
-      CREATE OPERATOR = (
-         leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_eq,
-         commutator = = , negator = <> 
-      );
-
-      CREATE OPERATOR == (
-         leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_eq,
-         commutator = == , negator = <> 
-      );
 
       /* this has no implementation in the Java source
       CREATE OPERATOR <> (
@@ -106,16 +24,6 @@ SQLActions[] = {
          commutator = <> , negator = == 
       );
       */
-
-      CREATE OPERATOR >= (
-         leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_ge,
-         commutator = <= , negator = <
-      );
-
-      CREATE OPERATOR > (
-         leftarg = invariantproperties.rational, rightarg = float8, procedure = invariantproperties.rational_gt,
-         commutator = < , negator = <=
-      );
 
     CREATE OPERATOR CLASS rational_ops
       DEFAULT FOR TYPE invariantproperties.rational USING btree AS
@@ -151,124 +59,6 @@ SQLActions[] = {
           AS 'com.invariantproperties.udt.sql.ComplexUDT.abs'
           LANGUAGE JAVA IMMUTABLE STRICT;
       */
-          
-      CREATE OPERATOR - (
-         rightarg = invariantproperties.complex, procedure = invariantproperties.complex_negate
-      );
-
-      CREATE OPERATOR + (
-         leftarg = invariantproperties.complex, rightarg = invariantproperties.complex, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         leftarg = invariantproperties.complex, rightarg = int4, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         leftarg = invariantproperties.complex, rightarg = int8, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         leftarg = invariantproperties.complex, rightarg = float4, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         leftarg = invariantproperties.complex, rightarg = float8, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         leftarg = invariantproperties.complex, rightarg = numeric, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         rightarg = invariantproperties.complex, leftarg = int4, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         rightarg = invariantproperties.complex, leftarg = int8, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         rightarg = invariantproperties.complex, leftarg = float4, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         rightarg = invariantproperties.complex, leftarg = float8, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR + (
-         rightarg = invariantproperties.complex, leftarg = numeric, procedure = invariantproperties.complex_add,
-         commutator = + 
-      );
-
-      CREATE OPERATOR - (
-         leftarg = invariantproperties.complex, rightarg = invariantproperties.complex, procedure = invariantproperties.complex_subtract
-      );
-
-      CREATE OPERATOR * (
-         leftarg = invariantproperties.complex, rightarg = invariantproperties.complex, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         leftarg = invariantproperties.complex, rightarg = int4, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         leftarg = invariantproperties.complex, rightarg = int8, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         leftarg = invariantproperties.complex, rightarg = float4, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         leftarg = invariantproperties.complex, rightarg = float8, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         leftarg = invariantproperties.complex, rightarg = numeric, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         rightarg = invariantproperties.complex, leftarg = int4, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         rightarg = invariantproperties.complex, leftarg = int8, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         rightarg = invariantproperties.complex, leftarg = float4, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         rightarg = invariantproperties.complex, leftarg = float8, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
-
-      CREATE OPERATOR * (
-         rightarg = invariantproperties.complex, leftarg = numeric, procedure = invariantproperties.complex_multiply,
-         commutator = * 
-      );
 
       /* this has no implementation in the Java source
       CREATE OPERATOR / (
@@ -280,30 +70,6 @@ SQLActions[] = {
 
    "BEGIN REMOVE
     /* DROP OPERATOR / ( invariantproperties.complex, invariantproperties.complex ); */
-    DROP OPERATOR * ( numeric, invariantproperties.complex );
-    DROP OPERATOR * ( float8, invariantproperties.complex );
-    DROP OPERATOR * ( float4, invariantproperties.complex );
-    DROP OPERATOR * ( int8, invariantproperties.complex );
-    DROP OPERATOR * ( int4, invariantproperties.complex );
-    DROP OPERATOR * ( invariantproperties.complex, numeric );
-    DROP OPERATOR * ( invariantproperties.complex, float8 );
-    DROP OPERATOR * ( invariantproperties.complex, float4 );
-    DROP OPERATOR * ( invariantproperties.complex, int8 );
-    DROP OPERATOR * ( invariantproperties.complex, int4 );
-    DROP OPERATOR * ( invariantproperties.complex, invariantproperties.complex );
-    DROP OPERATOR - ( invariantproperties.complex, invariantproperties.complex );
-    DROP OPERATOR + ( numeric, invariantproperties.complex );
-    DROP OPERATOR + ( float8, invariantproperties.complex );
-    DROP OPERATOR + ( float4, invariantproperties.complex );
-    DROP OPERATOR + ( int8, invariantproperties.complex );
-    DROP OPERATOR + ( int4, invariantproperties.complex );
-    DROP OPERATOR + ( invariantproperties.complex, numeric );
-    DROP OPERATOR + ( invariantproperties.complex, float8 );
-    DROP OPERATOR + ( invariantproperties.complex, float4 );
-    DROP OPERATOR + ( invariantproperties.complex, int8 );
-    DROP OPERATOR + ( invariantproperties.complex, int4 );
-    DROP OPERATOR + ( invariantproperties.complex, invariantproperties.complex );
-    DROP OPERATOR - ( none, invariantproperties.complex );
     /*
     DROP FUNCTION invariantproperties.abs(invariantproperties.complex);
     DROP FUNCTION invariantproperties.complex_divide(invariantproperties.complex, invariantproperties.complex);
@@ -311,26 +77,8 @@ SQLActions[] = {
     DROP FUNCTION invariantproperties.re(invariantproperties.complex);
     */
     DROP OPERATOR FAMILY rational_ops USING btree;
-    DROP OPERATOR > ( invariantproperties.rational, float8 );
-    DROP OPERATOR >= ( invariantproperties.rational, float8 );
     /* DROP OPERATOR <> ( invariantproperties.rational, float8 ); */
-    DROP OPERATOR == ( invariantproperties.rational, float8 );
-    DROP OPERATOR = ( invariantproperties.rational, float8 );
-    DROP OPERATOR <= ( invariantproperties.rational, float8 );
-    DROP OPERATOR < ( invariantproperties.rational, float8 );
-    DROP OPERATOR > ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR >= ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR <> ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR == ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR = ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR <= ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR < ( invariantproperties.rational, invariantproperties.rational );
     /* DROP FUNCTION invariantproperties.rational_ne(invariantproperties.rational, float8); */
-    DROP OPERATOR / ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR * ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR - ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR + ( invariantproperties.rational, invariantproperties.rational );
-    DROP OPERATOR - ( none, invariantproperties.rational );
     /*
     DROP FUNCTION invariantproperties.denominator(invariantproperties.rational);
     DROP FUNCTION invariantproperties.numerator(invariantproperties.rational);
