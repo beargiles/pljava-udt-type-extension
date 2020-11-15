@@ -354,6 +354,52 @@ public class RationalUDT implements SQLData {
     }
 
     /**
+     * Static comparison method that will be published as user-defined function.
+     *
+     * @param p
+     * @param q
+     * @return
+     */
+    @Function(schema="invariantproperties", name="rational_lt",
+        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Operator(name = "<", commutator = ">", negator = ">=",
+        restrict = SCALARLTSEL, join = SCALARLTJOINSEL)
+    @Operator(name = "<=", synthetic = "invariantproperties.rational_le",
+        restrict = SCALARLESEL, join = SCALARLEJOINSEL)
+    @Operator(name = ">=", synthetic = "invariantproperties.rational_ge",
+        commutator = "<=", restrict = SCALARGESEL, join = SCALARGEJOINSEL)
+    @Operator(name = ">", synthetic = "invariantproperties.rational_gt",
+        negator = "<=", restrict = SCALARGTSEL, join = SCALARGTJOINSEL)
+    public static boolean lessThan(double p, RationalUDT q) {
+        if ((q == null) || (q.value == null)) {
+            return false;
+        }
+        return q.value.compareTo(p) > 0;
+    }
+
+    /**
+     * Static comparison method that will be published as user-defined function.
+     *
+     * @param p
+     * @param q
+     * @return
+     */
+    @Function(schema="invariantproperties", name="rational_eq",
+        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
+    @Operator(name =  "=", commutator = TWIN, negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
+    @Operator(name = "==", commutator = TWIN, negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
+    @Operator(name = "<>", synthetic = "invariantproperties.rational_ne",
+        negator = "==", restrict = NEQSEL, join = NEQJOINSEL)
+    public static boolean equals(double p, RationalUDT q) {
+        if ((q == null) || (q.value == null)) {
+            return false;
+        }
+        return q.value.compareTo(p) == 0;
+    }
+
+    /**
      * Static methods that will be published as user-defined function.
      * 
      * @param input
