@@ -27,12 +27,6 @@
 									<SQLJDeploymentDescriptor>TRUE</SQLJDeploymentDescriptor>
 								</manifestEntries>
 							</manifestSection>
-							<manifestSection>
-								<name>postgresql-udt.ddr</name> <!-- filename -->
-								<manifestEntries>
-									<SQLJDeploymentDescriptor>TRUE</SQLJDeploymentDescriptor>
-								</manifestEntries>
-							</manifestSection>
 						</manifestSections>
 					</archive>
 				</configuration>
