@@ -342,9 +342,15 @@ public class RationalUDT implements SQLData {
         effects=IMMUTABLE, onNullInput=RETURNS_NULL)
     @Operator(name =  "=", commutator = TWIN, negator = "<>",
         restrict = EQSEL, join = EQJOINSEL)
+    @Operator(name =  "=", synthetic = TWIN, negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
     @Operator(name = "==", commutator = TWIN, negator = "<>",
         restrict = EQSEL, join = EQJOINSEL)
+    @Operator(name = "==", synthetic = TWIN, negator = "<>",
+        restrict = EQSEL, join = EQJOINSEL)
     @Operator(name = "<>", synthetic = "invariantproperties.rational_ne",
+        commutator = TWIN, negator = "==", restrict = NEQSEL, join = NEQJOINSEL)
+    @Operator(name = "<>", synthetic = TWIN,
         negator = "==", restrict = NEQSEL, join = NEQJOINSEL)
     public static boolean equals(RationalUDT p, double q) {
         if ((p == null) || (p.value == null)) {
@@ -375,28 +381,6 @@ public class RationalUDT implements SQLData {
             return false;
         }
         return q.value.compareTo(p) > 0;
-    }
-
-    /**
-     * Static comparison method that will be published as user-defined function.
-     *
-     * @param p
-     * @param q
-     * @return
-     */
-    @Function(schema="invariantproperties", name="rational_eq",
-        effects=IMMUTABLE, onNullInput=RETURNS_NULL)
-    @Operator(name =  "=", commutator = TWIN, negator = "<>",
-        restrict = EQSEL, join = EQJOINSEL)
-    @Operator(name = "==", commutator = TWIN, negator = "<>",
-        restrict = EQSEL, join = EQJOINSEL)
-    @Operator(name = "<>", synthetic = "invariantproperties.rational_ne",
-        negator = "==", restrict = NEQSEL, join = NEQJOINSEL)
-    public static boolean equals(double p, RationalUDT q) {
-        if ((q == null) || (q.value == null)) {
-            return false;
-        }
-        return q.value.compareTo(p) == 0;
     }
 
     /**
